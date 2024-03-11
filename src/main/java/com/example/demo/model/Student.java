@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.Period;
 
 @Entity
-@Table
 public class Student {
     @Id
     @SequenceGenerator(
@@ -25,15 +24,20 @@ public class Student {
     private LocalDate birth;
     @Transient
     private Integer age;
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 
     public Student(){
     }
 
-    public Student(Integer id, String name, String email, LocalDate birth) {
+    public Student(Integer id, String name, String email, LocalDate birth, Integer age, City city) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.birth = birth;
+        this.age = age;
+        this.city = city;
     }
 
     public Student(String name, String email, LocalDate birth) {
