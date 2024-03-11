@@ -1,8 +1,9 @@
-package com.example.demo.student;
+package com.example.demo.controller;
 
+import com.example.demo.model.Student;
+import com.example.demo.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
