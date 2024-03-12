@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.cglib.core.Local;
 
@@ -22,28 +24,25 @@ public class Student {
     private String name;
     private String email;
     private LocalDate birth;
-    @Transient
-    private Integer age;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
+    @JsonBackReference
     private City city;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
+    @JsonBackReference
+    private Address address;
 
     public Student(){
     }
 
-    public Student(Integer id, String name, String email, LocalDate birth, Integer age, City city) {
+    public Student(Integer id, String name, String email, LocalDate birth, City city, Address address) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.birth = birth;
-        this.age = age;
         this.city = city;
-    }
-
-    public Student(String name, String email, LocalDate birth) {
-        this.name = name;
-        this.email = email;
-        this.birth = birth;
+        this.address = address;
     }
 
     public Integer getId() {
@@ -77,23 +76,18 @@ public class Student {
     public void setBirth(LocalDate birth) {
         this.birth = birth;
     }
-
-    public Integer getAge() {
-        return Period.between(this.birth, LocalDate.now()).getYears();
+    public City getCity() {
+        return city;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setCity(City city) {
+        this.city = city;
+    }
+    public Address getAddress() {
+        return address;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", birth=" + birth +
-                ", age=" + age +
-                '}';
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }

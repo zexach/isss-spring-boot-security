@@ -3,9 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.City;
 import com.example.demo.service.CityService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +19,18 @@ public class CityController {
     @GetMapping
     public List<City> getCities() {
         return cityService.getCities();
+    }
+
+    @PostMapping
+    public String addCity(@RequestBody City city){
+        cityService.addCity(city);
+        return "City added successfully!";
+    }
+
+    @DeleteMapping(path = "{cityID}")
+    public String deleteCity(@PathVariable("cityID") Integer id){
+        cityService.deleteCity(id);
+        return "City deleted successfully!";
     }
 
 
