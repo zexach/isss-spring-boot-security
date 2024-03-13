@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 public class City {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     private String name;
     @OneToMany(mappedBy = "city")
