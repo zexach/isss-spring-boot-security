@@ -1,8 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.StudentDTO;
 import com.example.demo.model.Student;
 import com.example.demo.repository.StudentRepository;
 import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +24,14 @@ public class StudentService {
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
+    @Autowired
+    public ModelMapper modelMapper;
 
-    public List<Student> getStudents() {
-        return studentRepository.findAll();
+    public List<StudentDTO> getStudents() {
+        return studentRepository.findAll()
+                .stream()
+                .map(this::convertToStudentDTO)
+                .collect(Collectors.toList());
     }
 
     public void addNewStudent(Student student){
@@ -57,5 +66,13 @@ public class StudentService {
             throw new IllegalStateException("id doesn't exist");
         }
         studentRepository.deleteById(id);
+    }
+
+    public StudentDTO convertToStudentDTO(Student student) {
+        modelMapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO = modelMapper.map(student, StudentDTO.class);
+        return studentDTO;
     }
 }

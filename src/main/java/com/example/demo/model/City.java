@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -12,19 +11,16 @@ public class City {
     @GeneratedValue
     private Integer id;
     private String name;
-    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY)
-    private List<Student> students;
-    @OneToMany(mappedBy = "city", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "city")
     @JsonManagedReference
     private List<Address> addressList;
 
     public City() {
     }
 
-    public City(Integer id, String name, List<Student> students, List<Address> addressList) {
+    public City(Integer id, String name, List<Address> addressList) {
         this.id = id;
         this.name = name;
-        this.students = students;
         this.addressList = addressList;
     }
 
@@ -42,14 +38,6 @@ public class City {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
     }
 
     public List<Address> getAddressList() {

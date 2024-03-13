@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -13,22 +14,18 @@ public class Address {
     private Integer zipCode;
     @ManyToOne
     @JoinColumn(name = "city_id")
+    @JsonBackReference
     private City city;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "student_id")
-    @JsonManagedReference
-    private Student student;
 
     public Address() {
     }
 
-    public Address(Integer id, String streetName, String houseNumber, Integer zipCode, City city, Student student) {
+    public Address(Integer id, String streetName, String houseNumber, Integer zipCode, City city) {
         this.id = id;
         this.streetName = streetName;
         this.houseNumber = houseNumber;
         this.zipCode = zipCode;
         this.city = city;
-        this.student = student;
     }
 
     public Integer getId() {
@@ -71,11 +68,4 @@ public class Address {
         this.city = city;
     }
 
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-    }
 }

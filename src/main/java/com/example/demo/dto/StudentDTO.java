@@ -1,32 +1,20 @@
-package com.example.demo.model;
+package com.example.demo.dto;
 
-import jakarta.persistence.*;
+import com.example.demo.model.Address;
+
 import java.time.LocalDate;
 
-@Entity
-public class Student {
-    @Id
-    @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName =  "student_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "student_sequence"
-    )
+public class StudentDTO {
     private Integer id;
     private String name;
     private String email;
     private LocalDate birth;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
     private Address address;
 
-    public Student(){
+    public StudentDTO() {
     }
 
-    public Student(Integer id, String name, String email, LocalDate birth, Address address) {
+    public StudentDTO(Integer id, String name, String email, LocalDate birth, Address address) {
         this.id = id;
         this.name = name;
         this.email = email;

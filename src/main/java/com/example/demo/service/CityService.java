@@ -2,8 +2,10 @@ package com.example.demo.service;
 
 import com.example.demo.model.City;
 import com.example.demo.repository.CityRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,8 @@ public class CityService {
     public CityService(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
     }
+
+    public ModelMapper modelMapper;
 
     public List<City> getCities() {
         return cityRepository.findAll();
