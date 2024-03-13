@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CityDTO;
 import com.example.demo.model.City;
 import com.example.demo.service.CityService;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ public class CityController {
     }
 
     @GetMapping
-    public List<City> getCities() {
+    public List<CityDTO> getCities() {
         return cityService.getCities();
     }
 
