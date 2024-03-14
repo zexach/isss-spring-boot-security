@@ -2,9 +2,14 @@ package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class City {
     @Id
@@ -14,37 +19,4 @@ public class City {
     @OneToMany(mappedBy = "city")
     @JsonManagedReference
     private List<Address> addressList;
-
-    public City() {
-    }
-
-    public City(Integer id, String name, List<Address> addressList) {
-        this.id = id;
-        this.name = name;
-        this.addressList = addressList;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Address> getAddressList() {
-        return addressList;
-    }
-
-    public void setAddressList(List<Address> addressList) {
-        this.addressList = addressList;
-    }
 }
