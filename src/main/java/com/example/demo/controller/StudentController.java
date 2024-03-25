@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/student")
+@RequestMapping(path = "/api/v1/student")
 public class StudentController {
 
     private final StudentService studentService;
@@ -28,7 +28,7 @@ public class StudentController {
         studentService.addNewStudent(student);
     }
 
-    @PutMapping(path = "{studentID}")
+    @PutMapping(path = "/{studentID}")
     public void updateStudent(
             @PathVariable("studentID") Integer id,
             @RequestParam(required = false) String name,
@@ -36,7 +36,7 @@ public class StudentController {
         studentService.updateStudent(id, name, email);
     }
 
-    @DeleteMapping(path = "{studentID}")
+    @DeleteMapping(path = "/{studentID}")
     public void deleteStudent(@PathVariable("studentID") Integer id){
         studentService.deleteStudent(id);
     }

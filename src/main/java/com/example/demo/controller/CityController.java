@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/city")
+@RequestMapping(path = "/api/v1/city")
 public class CityController {
     private final CityService cityService;
 
@@ -28,7 +28,7 @@ public class CityController {
         return "City added successfully!";
     }
 
-    @DeleteMapping(path = "{cityID}")
+    @DeleteMapping(path = "/{cityID}")
     public String deleteCity(@PathVariable("cityID") Integer id){
         cityService.deleteCity(id);
         return "City deleted successfully!";
