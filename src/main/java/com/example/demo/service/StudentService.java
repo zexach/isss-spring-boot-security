@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.StudentDTO;
+import com.example.demo.model.Address;
 import com.example.demo.model.Student;
+import com.example.demo.repository.AddressRepository;
 import com.example.demo.repository.StudentRepository;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,12 @@ import java.util.stream.Collectors;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final AddressRepository addressRepository;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, AddressRepository addressRepository) {
         this.studentRepository = studentRepository;
+        this.addressRepository = addressRepository;
     }
     @Autowired
     public ModelMapper modelMapper;
@@ -33,13 +36,19 @@ public class StudentService {
                 .map(this::convertToStudentDTO)
                 .collect(Collectors.toList());
     }
-
-    public void addNewStudent(Student student){
+    @Transactional
+    public void addNewStudent(Student student, Address address){
         Optional<Student> studentByEmail = studentRepository.findStudentByEmail(student.getEmail());
+        Optional<Address> addressByHouseNumber = addressRepository.findAddressByHouseNumber(address.getHouseNumber());
         if(studentByEmail.isPresent()){
-            throw new IllegalStateException("email is taken");
+            throw new IllegalStateException("Email is taken");
         }
+        if(addressByHouseNumber.isPresent()){
+            throw new IllegalStateException("Address is taken");
+        }
+        addressRepository.save(address);
 
+        student.setAddress(address);
         studentRepository.save(student);
     }
 
