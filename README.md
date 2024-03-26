@@ -34,7 +34,11 @@
 
 #### Get all students
 
-* GET: /api/v1/student  
+* GET: /api/v1/student
+
+#### Get single student
+
+* GET: /api/v1/student/{id}
 
 #### Edit student
 
