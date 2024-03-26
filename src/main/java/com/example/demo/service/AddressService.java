@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Address;
 import com.example.demo.repository.AddressRepository;
+import com.example.demo.request.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +23,22 @@ public class AddressService {
         return addressRepository.findAll();
     }
 
-    public void addAddress(Address address) {
-        Optional<Address> optionalAddress = addressRepository.findAddressByHouseNumber(address.getHouseNumber());
+    public Address addAddress(RegisterRequest student) {
+        Optional<Address> existingAddress = addressRepository.
+                findAddressByStreetNameAndHouseNumber(student.getAddress().getStreetName(), student.getAddress().getHouseNumber());
 
-        if(optionalAddress.isPresent()){
-            throw new IllegalStateException(address.getHouseNumber() + " already exists");
+        if(existingAddress.isPresent()){
+            throw new IllegalStateException("Address already exists");
         }
 
-        addressRepository.save(address);
+        Address userAddress = new Address();
+        userAddress.setCity(student.getAddress().getCity());
+        userAddress.setStreetName(student.getAddress().getStreetName());
+        userAddress.setHouseNumber(student.getAddress().getHouseNumber());
+        userAddress.setZipCode(student.getAddress().getZipCode());
+
+        addressRepository.save(userAddress);
+
+        return userAddress;
     }
 }

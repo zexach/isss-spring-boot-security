@@ -4,7 +4,6 @@ import com.example.demo.dto.StudentDTO;
 import com.example.demo.enums.Role;
 import com.example.demo.model.Address;
 import com.example.demo.model.Student;
-import com.example.demo.repository.AddressRepository;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.request.RegisterRequest;
 import jakarta.transaction.Transactional;
@@ -23,14 +22,14 @@ import java.util.stream.Collectors;
 public class StudentService {
 
     private final StudentRepository studentRepository;
-    private final AddressRepository addressRepository;
+    private final AddressService addressService;
     private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder) {
+    public StudentService(StudentRepository studentRepository, AddressService addressService, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
-        this.addressRepository = addressRepository;
+        this.addressService = addressService;
         this.passwordEncoder = passwordEncoder;
     }
     @Autowired
@@ -42,25 +41,20 @@ public class StudentService {
                 .map(this::convertToStudentDTO)
                 .collect(Collectors.toList());
     }
+
+    public Student getStudent(Integer id) {
+        return studentRepository.findById(id).orElseThrow();
+    }
+
     @Transactional
     public Student addNewStudent(RegisterRequest student){
         Optional<Student> studentByEmail = studentRepository.findStudentByEmail(student.getEmail());
-        Optional<Address> existingAddress = addressRepository.
-                findAddressByStreetNameAndHouseNumber(student.getAddress().getStreetName(), student.getAddress().getHouseNumber());
 
         if(studentByEmail.isPresent()){
             throw new IllegalStateException("Email is taken");
         }
-        if(existingAddress.isPresent()){
-            throw new IllegalStateException("Address is taken");
-        }
 
-        Address userAddress = new Address();
-        userAddress.setCity(student.getAddress().getCity());
-        userAddress.setStreetName(student.getAddress().getStreetName());
-        userAddress.setHouseNumber(student.getAddress().getHouseNumber());
-        userAddress.setZipCode(student.getAddress().getZipCode());
-        addressRepository.save(userAddress);
+        Address userAddress = addressService.addAddress(student);
 
         Student studentToAdd = new Student();
         studentToAdd.setName(student.getName());

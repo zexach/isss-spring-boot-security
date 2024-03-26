@@ -23,9 +23,4 @@ public class AddressController {
         return addressService.getAddresses();
     }
 
-    @PostMapping
-    public String addAddress(@RequestBody Address address){
-        addressService.addAddress(address);
-        return "Address added successfully!";
-    }
 }
