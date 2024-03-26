@@ -1,14 +1,17 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.StudentDTO;
+import com.example.demo.enums.Role;
 import com.example.demo.model.Address;
 import com.example.demo.model.Student;
 import com.example.demo.repository.AddressRepository;
 import com.example.demo.repository.StudentRepository;
+import com.example.demo.request.RegisterRequest;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,11 +24,14 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
     private final AddressRepository addressRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, AddressRepository addressRepository) {
+    public StudentService(StudentRepository studentRepository, AddressRepository addressRepository, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
         this.addressRepository = addressRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     @Autowired
     public ModelMapper modelMapper;
@@ -37,19 +43,36 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
     @Transactional
-    public void addNewStudent(Student student, Address address){
+    public Student addNewStudent(RegisterRequest student){
         Optional<Student> studentByEmail = studentRepository.findStudentByEmail(student.getEmail());
-        Optional<Address> addressByHouseNumber = addressRepository.findAddressByHouseNumber(address.getHouseNumber());
+        Optional<Address> existingAddress = addressRepository.
+                findAddressByStreetNameAndHouseNumber(student.getAddress().getStreetName(), student.getAddress().getHouseNumber());
+
         if(studentByEmail.isPresent()){
             throw new IllegalStateException("Email is taken");
         }
-        if(addressByHouseNumber.isPresent()){
+        if(existingAddress.isPresent()){
             throw new IllegalStateException("Address is taken");
         }
-        addressRepository.save(address);
 
-        student.setAddress(address);
-        studentRepository.save(student);
+        Address userAddress = new Address();
+        userAddress.setCity(student.getAddress().getCity());
+        userAddress.setStreetName(student.getAddress().getStreetName());
+        userAddress.setHouseNumber(student.getAddress().getHouseNumber());
+        userAddress.setZipCode(student.getAddress().getZipCode());
+        addressRepository.save(userAddress);
+
+        Student studentToAdd = new Student();
+        studentToAdd.setName(student.getName());
+        studentToAdd.setEmail(student.getEmail());
+        studentToAdd.setPassword(passwordEncoder.encode(student.getPassword()));
+        studentToAdd.setBirth(student.getBirth());
+        studentToAdd.setAddress(userAddress);
+        studentToAdd.setRole(Role.USER);
+
+        studentRepository.save(studentToAdd);
+
+        return studentToAdd;
     }
 
     @Transactional

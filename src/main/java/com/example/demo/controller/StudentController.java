@@ -26,12 +26,6 @@ public class StudentController {
         return studentService.getStudents();
     }
 
-    @PostMapping
-    public String registerNewStudent(@RequestBody Student student, @RequestBody Address address){
-        studentService.addNewStudent(student, address);
-        return "Student added successfully!";
-    }
-
     @PutMapping(path = "/{studentID}")
     public void updateStudent(
             @PathVariable("studentID") Integer id,

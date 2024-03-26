@@ -18,19 +18,12 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     private final StudentRepository studentRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final StudentService studentService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        Student student = new Student();
-        student.setName(request.getName());
-        student.setEmail(request.getEmail());
-        student.setPassword(passwordEncoder.encode(request.getPassword()));
-        student.setBirth(request.getBirth());
-        student.setRole(Role.USER);
-
-        studentRepository.save(student);
+        Student student = studentService.addNewStudent(request);
 
         String jwtToken = jwtService.generateJwtToken(student);
 
