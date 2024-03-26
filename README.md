@@ -58,7 +58,7 @@
 
 * GET: /api/v1/city
 
-#### Get all cities
+#### Edit city
 
 * POST: /api/v1/city
 * JSON: {"name: "City"}
