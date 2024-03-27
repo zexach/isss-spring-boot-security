@@ -33,7 +33,7 @@ public class Student implements UserDetails {
     private String email;
     private String password;
     private LocalDate birth;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
     private Address address;
     @Enumerated(EnumType.STRING)

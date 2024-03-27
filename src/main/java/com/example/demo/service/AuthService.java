@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.config.AuthenticationResponse;
 import com.example.demo.config.JwtService;
-import com.example.demo.enums.Role;
 import com.example.demo.model.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.request.LoginRequest;
@@ -12,7 +11,6 @@ import com.example.demo.validators.PasswordValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

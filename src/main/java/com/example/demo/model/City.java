@@ -16,7 +16,7 @@ public class City {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
     private String name;
-    @OneToMany(mappedBy = "city")
+    @OneToMany(mappedBy = "city", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Address> addressList;
 }
