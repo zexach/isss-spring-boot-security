@@ -7,6 +7,8 @@ import com.example.demo.model.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.request.LoginRequest;
 import com.example.demo.request.RegisterRequest;
+import com.example.demo.validators.EmailValidator;
+import com.example.demo.validators.PasswordValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,8 +23,18 @@ public class AuthService {
     private final StudentService studentService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmailValidator emailValidator;
+    private final PasswordValidator passwordValidator;
 
     public AuthenticationResponse register(RegisterRequest request) {
+
+        if(!emailValidator.isEmailValid(request.getEmail())) {
+            throw new IllegalStateException("Email is not valid");
+        }
+        if(!passwordValidator.isPasswordValid(request.getPassword())){
+            throw new IllegalStateException("Password is not valid");
+        }
+
         Student student = studentService.addNewStudent(request);
 
         String jwtToken = jwtService.generateJwtToken(student);

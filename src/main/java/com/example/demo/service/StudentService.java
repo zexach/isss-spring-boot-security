@@ -7,6 +7,7 @@ import com.example.demo.model.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.request.RegisterRequest;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +20,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
 
     private final StudentRepository studentRepository;
     private final AddressService addressService;
     private final PasswordEncoder passwordEncoder;
 
-
-    @Autowired
-    public StudentService(StudentRepository studentRepository, AddressService addressService, PasswordEncoder passwordEncoder) {
-        this.studentRepository = studentRepository;
-        this.addressService = addressService;
-        this.passwordEncoder = passwordEncoder;
-    }
     @Autowired
     public ModelMapper modelMapper;
 

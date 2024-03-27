@@ -4,26 +4,19 @@ import com.example.demo.dto.CityDTO;
 import com.example.demo.model.City;
 import com.example.demo.repository.CityRepository;
 import com.example.demo.request.RegisterRequest;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CityService {
     private final CityRepository cityRepository;
-
-    @Autowired
-    public CityService(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
-    }
-
     @Autowired
     public ModelMapper modelMapper;
 

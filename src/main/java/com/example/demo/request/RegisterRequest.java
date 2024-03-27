@@ -1,7 +1,5 @@
 package com.example.demo.request;
 
-
-import com.example.demo.enums.Role;
 import com.example.demo.model.Address;
 import com.example.demo.model.City;
 import lombok.*;

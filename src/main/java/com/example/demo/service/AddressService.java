@@ -4,21 +4,18 @@ import com.example.demo.model.Address;
 import com.example.demo.model.City;
 import com.example.demo.repository.AddressRepository;
 import com.example.demo.request.RegisterRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AddressService {
 
     private final AddressRepository addressRepository;
     private final CityService cityService;
-
-    public AddressService(AddressRepository addressRepository, CityService cityService) {
-        this.addressRepository = addressRepository;
-        this.cityService = cityService;
-    }
 
     public List<Address> getAddresses() {
         return addressRepository.findAll();
