@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.CityDTO;
 import com.example.demo.model.City;
 import com.example.demo.repository.CityRepository;
+import com.example.demo.request.RegisterRequest;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +34,12 @@ public class CityService {
                 .collect(Collectors.toList());
     }
 
-    public void addCity(City city) {
-        Optional<City> optionalCity = cityRepository.findCityByName(city.getName());
-
-        if(optionalCity.isPresent()) {
-            throw new IllegalStateException(city.getName() + " is already added");
+    public City addCity(RegisterRequest student) {
+        City city = cityRepository.findCityByName(student.getCity().getName());
+        if(city == null) {
+            throw new IllegalStateException("City doesn't exist");
         }
-
-        cityRepository.save(city);
+        return city;
     }
 
     public void deleteCity(Integer id) {

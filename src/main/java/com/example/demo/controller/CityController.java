@@ -22,12 +22,6 @@ public class CityController {
         return cityService.getCities();
     }
 
-    @PostMapping
-    public String addCity(@RequestBody City city){
-        cityService.addCity(city);
-        return "City added successfully!";
-    }
-
     @DeleteMapping(path = "/{cityID}")
     public String deleteCity(@PathVariable("cityID") Integer id){
         cityService.deleteCity(id);

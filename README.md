@@ -8,17 +8,20 @@
 
 * POST: /api/v1/auth/register   
 
-* JSON: {
-        "name": "Name Surname",
-        "email": "name@email.com",
-        "password": "password1234",
-        "birth": "2000-01-01",
-        "address": {
-            "streetName": "Street Name",
-            "houseNumber": "25",
-            "zipCode": 72200
-        }
-}
+  * JSON: {
+          "name": "Name Surname",
+          "email": "name@email.com",
+          "password": "password1234",
+          "birth": "2000-01-01",
+          "address": {
+              "streetName": "Street Name",
+              "houseNumber": "25",
+              "zipCode": 72200
+          },
+          "city": {
+              "name": "City Name"
+          }
+  }
 
 #### Login
 
@@ -61,11 +64,6 @@
 #### Get all cities
 
 * GET: /api/v1/city
-
-#### Edit city
-
-* POST: /api/v1/city
-* JSON: {"name: "City"}
 
 #### Delete city
 
