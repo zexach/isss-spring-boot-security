@@ -26,9 +26,7 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final AddressService addressService;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public ModelMapper modelMapper;
+    public final ModelMapper modelMapper;
 
     public List<StudentDTO> getStudents() {
         return studentRepository.findAll()
@@ -43,7 +41,7 @@ public class StudentService {
 
     @Transactional
     public Student addNewStudent(RegisterRequest student){
-        Optional<Student> studentByEmail = studentRepository.findStudentByEmail(student.getEmail());
+        Optional<Student> studentByEmail = this.studentRepository.findStudentByEmail(student.getEmail());
 
         if(studentByEmail.isPresent()){
             throw new IllegalStateException("Email is taken");
@@ -59,7 +57,7 @@ public class StudentService {
         studentToAdd.setAddress(userAddress);
         studentToAdd.setRole(Role.USER);
 
-        studentRepository.save(studentToAdd);
+        this.studentRepository.save(studentToAdd);
 
         return studentToAdd;
     }

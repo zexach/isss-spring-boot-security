@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Address;
 import com.example.demo.service.AddressService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,14 +10,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/address")
+@RequiredArgsConstructor
 public class AddressController {
 
-    @Autowired
-    private AddressService addressService;
-
-    public AddressController(AddressService addressService) {
-        this.addressService = addressService;
-    }
+    private final AddressService addressService;
 
     @GetMapping
     public List<Address> getAddresses() {

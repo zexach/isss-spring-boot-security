@@ -17,8 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CityService {
     private final CityRepository cityRepository;
-    @Autowired
-    public ModelMapper modelMapper;
+    public final ModelMapper modelMapper;
 
     public List<CityDTO> getCities() {
         return cityRepository.findAll()
@@ -28,7 +27,7 @@ public class CityService {
     }
 
     public City addCity(RegisterRequest student) {
-        City city = cityRepository.findCityByName(student.getCity().getName());
+        City city = this.cityRepository.findCityByName(student.getCity().getName());
         if(city == null) {
             throw new IllegalStateException("City doesn't exist");
         }
@@ -36,11 +35,11 @@ public class CityService {
     }
 
     public void deleteCity(Integer id) {
-        boolean exists = cityRepository.existsById(id);
+        boolean exists = this.cityRepository.existsById(id);
         if(!exists){
             throw new IllegalStateException("City doesn't exist");
         }
-        cityRepository.deleteById(id);
+        this.cityRepository.deleteById(id);
     }
 
     public CityDTO convertToCityDTO(City city) {

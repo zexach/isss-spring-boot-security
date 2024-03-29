@@ -4,6 +4,7 @@ import com.example.demo.dto.StudentDTO;
 import com.example.demo.model.Address;
 import com.example.demo.model.Student;
 import com.example.demo.service.StudentService;
+import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/v1/student")
+@RequiredArgsConstructor
 public class StudentController {
 
     private final StudentService studentService;
-
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
 
     @GetMapping
     public List<StudentDTO> getStudents(){

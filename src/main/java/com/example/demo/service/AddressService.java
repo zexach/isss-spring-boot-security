@@ -22,7 +22,7 @@ public class AddressService {
     }
 
     public Address addAddress(RegisterRequest student) {
-        Optional<Address> existingAddress = addressRepository.
+        Optional<Address> existingAddress = this.addressRepository.
                 findAddressByStreetNameAndHouseNumberAndZipCode(
                         student.getAddress().getStreetName(), student.getAddress().getHouseNumber(), student.getAddress().getZipCode()
                 );
@@ -31,7 +31,7 @@ public class AddressService {
             throw new IllegalStateException("Address already exists");
         }
 
-        City city = cityService.addCity(student);
+        City city = this.cityService.addCity(student);
 
         Address userAddress = new Address();
         userAddress.setStreetName(student.getAddress().getStreetName());
@@ -39,7 +39,7 @@ public class AddressService {
         userAddress.setZipCode(student.getAddress().getZipCode());
         userAddress.setCity(city);
 
-        addressRepository.save(userAddress);
+        this.addressRepository.save(userAddress);
 
         return userAddress;
     }

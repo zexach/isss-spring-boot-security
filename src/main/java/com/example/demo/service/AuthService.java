@@ -33,9 +33,9 @@ public class AuthService {
             throw new IllegalStateException("Password is not valid");
         }
 
-        Student student = studentService.addNewStudent(request);
+        Student student = this.studentService.addNewStudent(request);
 
-        String jwtToken = jwtService.generateJwtToken(student);
+        String jwtToken = this.jwtService.generateJwtToken(student);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -43,17 +43,17 @@ public class AuthService {
     }
 
     public AuthenticationResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
+        this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
 
-        Student student = studentRepository.findStudentByEmail(request.getEmail())
+        Student student = this.studentRepository.findStudentByEmail(request.getEmail())
                 .orElseThrow();
 
-        String jwtToken = jwtService.generateJwtToken(student);
+        String jwtToken = this.jwtService.generateJwtToken(student);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
