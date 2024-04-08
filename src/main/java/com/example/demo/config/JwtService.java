@@ -20,12 +20,8 @@ public class JwtService {
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
 
     public String extractUsername(String jwtToken) {
-        return extractClaim(jwtToken, Claims::getSubject);
-    }
-
-    public <T> T extractClaim(String jwtToken, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(jwtToken);
-        return claimsResolver.apply(claims);
+        return claims.getSubject();
     }
 
     public String generateJwtToken(UserDetails userDetails) {
@@ -53,7 +49,8 @@ public class JwtService {
     }
 
     private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+        final Claims claims = extractAllClaims(token);
+        return claims.getExpiration();
     }
 
     private Claims extractAllClaims(String jwtToken) {
