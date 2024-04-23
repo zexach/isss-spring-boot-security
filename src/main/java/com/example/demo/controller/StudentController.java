@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/v1/student")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class StudentController {
 
     private final StudentService studentService;

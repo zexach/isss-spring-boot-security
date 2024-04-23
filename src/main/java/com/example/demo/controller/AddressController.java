@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/v1/address")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class AddressController {
 
     private final AddressService addressService;

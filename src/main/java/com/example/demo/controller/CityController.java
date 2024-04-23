@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/v1/city")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class CityController {
     private final CityService cityService;
 
